@@ -9,7 +9,7 @@ import scalaz.syntax.foldable._
 
 object MicroExample0 {
   def stringify[A : Show](r: Streem[A], n: Int): String =
-    r.take(n).takeAll.map(Show[A].shows).intersperse("\n").fold
+    r.take(n).takeAll.map(Show[A].shows).intercalate("\n")
 
   def main(args: Array[String]): Unit = {
     // (A = 7) /\ ((B = 7) \/ (B = 6))

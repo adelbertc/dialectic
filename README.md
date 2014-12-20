@@ -24,7 +24,7 @@ object MicroExample0 {
     val b = callFresh(b => (b =#= 5.const) \/ (b =#= 6.const))
     val query = a /\ b
     val result = query.runEmpty
-    val prettyString = result.takeAll.map(Show[GoalState].shows).intersperse("\n").fold
+    val prettyString = result.takeAll.map(Show[GoalState].shows).intercalate("\n")
     println(prettyString)
 
     // [(Var(0),Const(7)),(Var(1),Const(5))]
