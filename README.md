@@ -20,11 +20,11 @@ import scalaz.syntax.foldable._
 object MicroExample0 {
   def main(args: Array[String]): Unit = {
     // (A = 7) /\ ((B = 7) \/ (B = 6))
-    val a = callFresh(a => a =#= 7.const)
-    val b = callFresh(b => (b =#= 5.const) \/ (b =#= 6.const))
+    val a = callFresh[Int](a => a =#= 7.const)
+    val b = callFresh[Int](b => (b =#= 5.const) \/ (b =#= 6.const))
     val query = a /\ b
     val result = query.runEmpty
-    val prettyString = result.takeAll.map(Show[GoalState].shows).intercalate("\n")
+    val prettyString = result.takeAll.map(Show[GoalState[Int]].shows).intercalate("\n")
     println(prettyString)
 
     // [(Var(0),Const(7)),(Var(1),Const(5))]

@@ -11,14 +11,14 @@ object wrapper extends WrapperHelper
 /** Derived combinators */
 trait WrapperHelper {
   /** Disjunction of conjunctions */
-  def conde[F[_] : Foldable1, G[_] : Foldable1](fgg: F[G[Goal]]): Goal =
-    Tag.unwrap(Foldable1[F].foldMap1(fgg)(fg => Tag.apply[Goal, Disjunction](conjPlus(fg))))
+  def conde[F[_] : Foldable1, G[_] : Foldable1, A](fgg: F[G[Goal[A]]]): Goal[A] =
+    Tag.unwrap(Foldable1[F].foldMap1(fgg)(fg => Tag.apply[Goal[A], Disjunction](conjPlus(fg))))
 
   /** Conjunction of goals */
-  def conjPlus[F[_] : Foldable1](fg: F[Goal]): Goal =
-    Tag.unwrap(Foldable1[F].foldMap1(fg)(Tag.apply[Goal, Conjunction]))
+  def conjPlus[F[_] : Foldable1, A](fg: F[Goal[A]]): Goal[A] =
+    Tag.unwrap(Foldable1[F].foldMap1(fg)(Tag.apply[Goal[A], Conjunction]))
 
   /** Disjunction of goals */
-  def disjPlus[F[_] : Foldable1](fg: F[Goal]): Goal =
-    Tag.unwrap(Foldable1[F].foldMap1(fg)(Tag.apply[Goal, Disjunction]))
+  def disjPlus[F[_] : Foldable1, A](fg: F[Goal[A]]): Goal[A] =
+    Tag.unwrap(Foldable1[F].foldMap1(fg)(Tag.apply[Goal[A], Disjunction]))
 }
