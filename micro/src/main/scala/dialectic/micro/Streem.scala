@@ -49,8 +49,16 @@ sealed abstract class Streem[A] {
            (h, t) => Mature(h, t.take(n - 1)),
            _.take(n))
 
-  def takeAll: IList[A] =
-    fold(IList.empty, _ :: _.takeAll, _.takeAll)
+  def takeAll: IList[A] = {
+    @annotation.tailrec
+    def go(soFar: Streem[A], acc: IList[A]): IList[A] =
+      soFar match {
+        case Empty() => acc
+        case Mature(h, t) => go(t, h :: acc)
+        case Immature(s) => go(s(), acc)
+      }
+    go(this, IList.empty).reverse
+  }
 }
 
 object Streem extends StreemInstances {
